@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,7 @@ public class MailSenderService {
      * Sends a confirmation that your attempt to reserve the campsite was received.
      * @param reservationDTO
      */
+    @Async
     @SneakyThrows
         public void sendEmailReservationConfirmation(ReservationDTO reservationDTO) {
 

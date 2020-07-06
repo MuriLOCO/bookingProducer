@@ -14,7 +14,9 @@ public class ReservationDTO {
 
 
     final UUID reservationId;
+    final Instant dayOfReservation;
     final Instant dayOfArrival;
+    final Instant dayOfLeaving;
     final Boolean cancelled;
     final String firstMame;
     final String lastName;

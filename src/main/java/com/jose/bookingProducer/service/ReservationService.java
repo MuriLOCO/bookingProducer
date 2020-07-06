@@ -5,12 +5,13 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
 public class ReservationService {
 
-    private static final String QUEUE_NAME = "BOOKING.PROD";
+    private static final String QUEUE_NAME_RESERVATION = "RESERVATION";
 
     private final JMSSenderService JMSSenderService;
     private final MailSenderService mailSenderService;
@@ -32,6 +33,8 @@ public class ReservationService {
         ReservationDTO builtReservationDTO = ReservationDTO.hiddenBuilder()
             .reservationId(UUID.randomUUID())
             .dayOfArrival(reservationDTO.getDayOfArrival())
+            .dayOfLeaving(reservationDTO.getDayOfLeaving())
+            .dayOfReservation(Instant.now())
             .cancelled(false)
             .firstMame(reservationDTO.getFirstMame())
             .lastName(reservationDTO.getLastName())
@@ -39,7 +42,7 @@ public class ReservationService {
             .emailAddress(reservationDTO.getEmailAddress())
             .dateOfBirth(reservationDTO.getDateOfBirth()).build();
 
-    JMSSenderService.send(QUEUE_NAME, builtReservationDTO);
+    JMSSenderService.send(QUEUE_NAME_RESERVATION, builtReservationDTO);
     mailSenderService.sendEmailReservationConfirmation(builtReservationDTO);
 
     return builtReservationDTO;
